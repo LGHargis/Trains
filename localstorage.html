@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train Schedule</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-med-12">
+                <form>
+                    <div class="form-group">
+                        <label for="train-name">Train Name</label>
+                        <input type="name" class="form-control" id="train-name" aria-describedby="nameHelp" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="train-destination">Destination</label>
+                        <input type="destination" class="form-control" id="train-destination" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="first-train-time">First Train Time</label>
+                        <input type="firsTtime" class="form-control" id="first-train-time" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="train-frequency">Frequency(min)</label>
+                        <input type="frequency" class="form-control" id="train-frequency" placeholder="">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-med-6" style="margin:auto" style="text-align:center"></div>
+            <h2>Current Schedule</h2>
+            <table class="table col-med-6" style="margin:auto">
+                <thead>
+                    <tr>
+                        <th scope="col">Train Name</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Frequency</th>
+                        <th scope="col">Next Arrical</th>
+                        <th scope="col">Minutes Away</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Alpha</td>
+                        <td>Flagstaff</td>
+                        <td>45 Min</td>
+                        <td>10</td>
+                        <td>15</td>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+
+        let trains = []
+
+        function createRow() {
+            // $("<tr>").empty();
+            for (var i = 0; i < trains.length; i++) {
+                let tRow = $("<tr>");
+                let nameTd = $("<td>")
+                nameTd.text(trains[i].name)
+                let destTd = $("<td>")
+                destTd.text(trains[i].dest)
+                let firstTd = $("<td>");
+                firstTd.text(trains[i].fTT)
+                let freqTd = $("<td>");
+                freqTd.text(trains[i].freq)
+                tRow.append(nameTd, destTd, firstTd, freqTd);
+            }
+        };
+
+        $("#submit").on("click", function (event) {
+
+            event.preventDefault();
+
+            let trainName = $("#train-name").val().trim();
+            let destination = $("#train-destination").val().trim();
+            let firstTrainTime = $("#first-train-time").val().trim();
+            let frequency = $("#train-frequency").val().trim();
+            console.log(trainName);
+            console.log(destination);
+            console.log(firstTrainTime);
+            console.log(frequency);
+
+            let object = {
+                name: trainName,
+                dest: destination,
+                fTT: firstTrainTime,
+                freq: frequency
+            };
+            myJSON = JSON.stringify(object);
+            localStorage.setItem("trains", myJSON);
+            let retrieve = localStorage.getItem("trains");
+            let obj = JSON.parse(retrieve);
+            trains.push(obj);
+            console.log(trains);
+
+            createRow();
+        });
+
+        // $("#one").append(localStorage.getItem("name"));
+        // $('#two').append(localStorage.getItem("destination"));
+        // $("#three").append(localStorage.getItem("firstTtime"));
+        // $("#four").append(localStorage.getItem("frequency"));
+    </script>
+
+</body>
+
+</html>
